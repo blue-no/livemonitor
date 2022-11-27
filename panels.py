@@ -5,7 +5,8 @@ import numpy as np
 
 import pyqtgraph as pg
 from pyqtgraph.console import ConsoleWidget
-from pyqtgraph.Qt import QtCore
+
+from common import QLoop
 
 
 C = (
@@ -16,17 +17,6 @@ C = (
     (0, 125, 175),
     (139, 99, 172)
 )
-
-
-class QLoop:
-    __timers = []
-
-    @classmethod
-    def run(cls, f, msec):
-        timer = QtCore.QTimer()
-        timer.timeout.connect(f)
-        timer.start(msec)
-        cls.__timers.append(timer)
 
 
 class PrinterPanel:
