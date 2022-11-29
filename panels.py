@@ -212,7 +212,6 @@ class IMDataPanelV1:
         p = self.plot1.plot([], pen=COLORS[4], fillLevel=0.0, brush=(*COLORS[4], 100))
 
         def main():
-            nonlocal p
             del self.data1[:-self.histlen]
             p.setData(list(self.data1))
         QLoop.run(main, 100)
