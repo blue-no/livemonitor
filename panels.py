@@ -1,13 +1,10 @@
 from datetime import datetime
-import multiprocessing as mp
-from typing import Any, Dict, List, Union
-import cv2
-import numpy as np
 
 import pyqtgraph as pg
 from pyqtgraph.console import ConsoleWidget
 
 from base import _BasePanel
+from livemonitor.base import SharedData
 
 
 class PrinterPanelV1(_BasePanel):
@@ -58,7 +55,9 @@ class PrinterPanelV1(_BasePanel):
         return widget
 
     def get_frame(self):
-        return self.sd_video.pop()
+        if self.sd_video.is_empty() > 0:
+            return self.sd_video.pop()
+        return None
 
     def add_multidata(self, *vals):
         for sd, v in zip(self.sds_md, vals):
@@ -145,9 +144,13 @@ class IMDataPanelV2(_BasePanel):
         return widget
 
     def get_frame1(self):
+        if self.sd_video1.is_empty():
+            return None
         return self.sd_video1.pop()
 
     def get_frame2(self):
+        if self.sd_video2.is_empty():
+            return None
         return self.sd_video2.pop()
 
     def set_plot1(self, values):
@@ -158,6 +161,5 @@ class IMDataPanelV2(_BasePanel):
         self.sds_plot2[0].clear()
         self.sds_plot2[0].push(*values)
 
-    def set_plot3(self, values):
-        self.sds_plot3[0].clear()
-        self.sds_plot3[0].push(*values)
+    def add_plot3(self, value):
+        self.sds_plot3[0].push(value)
