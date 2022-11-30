@@ -26,15 +26,18 @@ class SharedData:
         self.__maxlen = maxlen
         self.__values = mp.Manager().list()
 
+    def is_empty(self):
+        return len(self.__values) == 0
+
     def push(self, *values):
         self.__values += list(values)
-        del self.__values[:-self.__maxlen]
+        self.__values[:len(self.__values)-self.__maxlen] = []
 
     def pop(self):
         return self.__values.pop(0)
 
     def clear(self):
-        del self.__values[:]
+        self.__values[:] = []
 
     @property
     def values(self):
@@ -61,10 +64,8 @@ class _BasePanel:
 
         def main():
             try:
-                frame = cv2.rotate(cv2.cvtColor(
-                    cap.read()[1], cv2.COLOR_BGR2RGB),
-                    cv2.ROTATE_90_CLOCKWISE)
-                imgitem.setImage(frame)
+                frame = cv2.rotate(cap.read()[1], cv2.ROTATE_90_CLOCKWISE)
+                imgitem.setImage(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
                 sd.push(frame)
             except:
                 cap.release()
