@@ -1,7 +1,4 @@
-import multiprocessing as mp
-
 import pyqtgraph as pg
-from pyqtgraph.Qt import QtWidgets
 
 from base import _BaseMonitor
 
