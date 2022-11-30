@@ -1,12 +1,14 @@
-from pyqtgraph.Qt import QtCore
 
 
-class QLoop:
-    __timers = []
+_COLORS = (
+    (215, 86, 116),
+    (251, 141, 61),
+    (217, 200, 27),
+    (0, 165, 131),
+    (0, 125, 175),
+    (139, 99, 172)
+)
 
-    @classmethod
-    def run(cls, f, msec):
-        timer = QtCore.QTimer()
-        timer.timeout.connect(f)
-        timer.start(msec)
-        cls.__timers.append(timer)
+
+def colors(i):
+    return _COLORS[i % len(_COLORS)]
