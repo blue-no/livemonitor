@@ -3,7 +3,7 @@ import time
 import numpy as np
 
 from monitors import Monitor1
-from panels2 import *
+from panels import *
 
 
 def main1():
@@ -33,7 +33,7 @@ def main1():
         cp.add_log(f'test {i}')
         ip.set_plot1(np.random.normal(size=100))
         ip.set_plot2(np.random.normal(size=100))
-        ip.set_plot3(np.random.normal(size=100))
+        ip.add_plot3(np.random.rand())
         time.sleep(1.0)
 
 
