@@ -6,14 +6,23 @@ from pyqtgraph.Qt import QtWidgets
 
 class BaseMonitor:
 
-    def __init__(self, title=None):
+    def __init__(self, title=None, qt_material_theme='dark_blue.xml'):
         self.title = title
+        self.qt_material_theme = qt_material_theme
 
     def layout_panels(self, frame: 'pg.LayoutWidget') -> None:
         raise NotImplementedError
 
     def run(self):
         app = pg.mkQApp()
+        try:
+            from qt_material import apply_stylesheet
+            apply_stylesheet(
+                app, theme=self.qt_material_theme,
+                extra={'font_family': 'Arial'})
+        except ImportError:
+            pass
+
         window = QtWidgets.QMainWindow()
         window.setWindowTitle(self.title)
 
@@ -23,7 +32,7 @@ class BaseMonitor:
 
         self.layout_panels(frame)
 
-        window.show()
+        window.showMaximized()
         app.exec_()
 
     def run_mp(self):
