@@ -58,7 +58,7 @@ class CustomMonitor(BaseMonitor):
         self.panel1 = panel1
         self.panel2 = panel2
 
-    def layout_panels(self, frame: 'pg.LayoutWidget') -> None:
+    def init_panels(self, frame: 'pg.LayoutWidget') -> None:
         frame.addWidget(self.panel1.build(), col=0)
         frame.addWidget(self.panel2.build(), col=1)
         frame.layout.setColumnStretch(0, 2)

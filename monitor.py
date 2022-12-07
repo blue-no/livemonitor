@@ -10,7 +10,7 @@ class BaseMonitor:
         self.title = title
         self.qt_material_theme = qt_material_theme
 
-    def layout_panels(self, frame: 'pg.LayoutWidget') -> None:
+    def init_panels(self, frame: 'pg.LayoutWidget') -> None:
         raise NotImplementedError
 
     def run(self):
@@ -30,7 +30,7 @@ class BaseMonitor:
         frame.layout.setContentsMargins(5, 5, 5, 5)
         window.setCentralWidget(frame)
 
-        self.layout_panels(frame)
+        self.init_panels(frame)
 
         window.showMaximized()
         app.exec_()
