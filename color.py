@@ -1,33 +1,33 @@
-COLOR = {
-    'red': [
+class Color:
+    RED = [
         '#fc8f59',
         '#f6735f',
         '#ed555a',
         '#e33f5c',
         '#d02964',
     ],
-    'green': [
+    GREEN = [
         '#35bc88',
         '#20ae7c',
         '#1ba37d',
         '#13947d',
         '#0b7e7f',
     ],
-    'blue': [
+    BLUE = [
         '#1ed7cd',
         '#18c4b8',
         '#05a7be',
         '#087ea2',
         '#017598',
     ],
-    'purple': [
+    PURPLE = [
         '#d876a9',
         '#c967a2',
         '#9c539c',
         '#804595',
         '#6a398c',
     ],
-    'wheel12': [
+    WHEEL12 = [
         '#B5184F',
         '#DD3737',
         '#E66D00',
@@ -41,7 +41,7 @@ COLOR = {
         '#663E8C',
         '#892C71',
     ]
-}
+
 
 def code_to_rgb(code):
     c = code.lstrip('#')
