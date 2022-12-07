@@ -46,6 +46,18 @@ class BaseGraphicsPanel:
 
         QtLoop.run(main, loop_msec)
 
+    def setup_image(
+            self, view_box: 'pg.ViewBox', sd: 'SharedData',
+            loop_msec: int = 500) -> None:
+        imgitem = pg.ImageItem()
+        view_box.addItem(imgitem)
+
+        def main():
+            img = sd.values
+            imgitem.setImage(img)
+
+        QtLoop.run(main, loop_msec)
+
     def setup_line_graph(
             self, plot_item: 'pg.PlotItem', *sds: 'SharedData',
             title: Optional[str] = None,
