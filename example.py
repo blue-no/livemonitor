@@ -5,7 +5,7 @@ import pyqtgraph as pg
 from pyqtgraph.console import ConsoleWidget
 
 from util import SharedData
-from color import COLOR
+from color import Color
 from panel import BaseGraphicsPanel, BaseConsolePanel
 from monitor import BaseMonitor
 
@@ -36,10 +36,10 @@ class CustomPanel1(BaseGraphicsPanel):
         self.setup_scatter_plot(
             plot2, self.sd_scatter, title='Scatter Plot',
             xunit='mm', yunit='mm', xrange=(0, 1), yrange=(0, 1),
-            colors=COLOR['blue'])
+            colors=Color.BLUE)
         self.setup_line_graph(
             plot3, self.sd_multi1, self.sd_multi2, self.sd_multi3,
-            colors=COLOR['wheel12'], legends=['A', 'B', 'C'], fill=True)
+            colors=Color.WHEEL12, legends=['A', 'B', 'C'], fill=True)
 
 
 class CustomPanel2(BaseConsolePanel):
