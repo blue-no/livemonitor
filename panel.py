@@ -1,16 +1,12 @@
 from typing import List, Optional, Tuple, Union
-import cv2
 
+import cv2
 import pyqtgraph as pg
 from pyqtgraph.console import ConsoleWidget
 from pyqtgraph.Qt import QtWidgets
 
-try:
-    from .color import code_to_rgb
-    from .util import SharedData, QtLoop
-except ImportError:
-    from color import code_to_rgb
-    from util import SharedData, QtLoop
+from .color import code_to_rgb
+from .util import SharedData, QtLoop
 
 
 class BaseGraphicsPanel:
