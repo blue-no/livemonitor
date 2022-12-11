@@ -1,6 +1,7 @@
 from typing import List, Optional, Tuple, Union
 
 import cv2
+import numpy as np
 import pyqtgraph as pg
 from pyqtgraph.console import ConsoleWidget
 from pyqtgraph.Qt import QtWidgets
@@ -42,15 +43,18 @@ class BaseGraphicsPanel:
 
         QtLoop.run(main, loop_msec)
 
-    def setup_image(
+    def setup_frame(
             self, view_box: 'pg.ViewBox', sd: 'SharedData',
             loop_msec: int = 500) -> None:
         imgitem = pg.ImageItem()
         view_box.addItem(imgitem)
 
         def main():
-            img = sd.values
-            imgitem.setImage(img)
+            img = sd.get()
+            if len(img) > 0:
+                imgitem.setImage(
+                    cv2.rotate(
+                        cv2.cvtColor(img, cv2.COLOR_BGR2RGB), cv2.ROTATE_90_CLOCKWISE))
 
         QtLoop.run(main, loop_msec)
 
@@ -95,7 +99,7 @@ class BaseGraphicsPanel:
 
         def main():
             for p, sd in zip(ps, sds):
-                p.setData(sd.values)
+                p.setData(np.array(sd.get()))
 
         QtLoop.run(main, loop_msec)
 
@@ -138,7 +142,7 @@ class BaseGraphicsPanel:
 
         def main():
             for p, sd in zip(ps, sds):
-                values = sd.values
+                values = sd.get()
                 p.setData([t[0] for t in values], [t[1] for t in values])
 
         QtLoop.run(main, loop_msec)
@@ -165,7 +169,7 @@ class BaseConsolePanel:
             loop_msec: int = 100) -> None:
 
         def main():
-            for s in sd.values:
+            for s in sd.get():
                 wid.write(s+'\n')
             sd.clear()
 
