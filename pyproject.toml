@@ -11,6 +11,7 @@ requires-python = ">=3.6"
 dependencies = [
     "opencv-python",
     "numpy",
+    "pyqt5",
     "pyqtgraph",
 ]
 dynamic = ["version"]
