@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "livemonitor"
+readme = "README.md"
+authors = [{name = "Kota AONO", email = "k.pg.aono@gmail.com"}]
+license = {text = "Apache License 2.0"}
+requires-python = ">=3.6"
+dependencies = [
+    "opencv-python",
+    "numpy",
+    "pyqtgraph",
+]
+dynamic = ["version"]
+
+[tool.setuptools.dynamic]
+version = {attr = "livemonitor.__version__"}
