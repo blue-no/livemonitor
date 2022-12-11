@@ -4,10 +4,10 @@ import numpy as np
 import pyqtgraph as pg
 from pyqtgraph.console import ConsoleWidget
 
-from util import SharedData
-from color import Color
-from panel import BaseGraphicsPanel, BaseConsolePanel
-from monitor import BaseMonitor
+from .util import SharedData
+from .color import Color
+from .panel import BaseGraphicsPanel, BaseConsolePanel
+from .monitor import BaseMonitor
 
 
 class CustomPanel1(BaseGraphicsPanel):
