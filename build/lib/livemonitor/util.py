@@ -31,7 +31,7 @@ class SharedData:
         self.__values[0] = new
 
     def replace(self, values: Any) -> None:
-        new = values
+        new = list(values)
         if self.maxlen is not None:
             new = new[-self.maxlen:]
         self.__values[0] = new

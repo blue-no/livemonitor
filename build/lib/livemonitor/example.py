@@ -4,10 +4,10 @@ import numpy as np
 import pyqtgraph as pg
 from pyqtgraph.console import ConsoleWidget
 
-from livemonitor.util import SharedData
-from livemonitor.color import Color
-from livemonitor.panel import BaseGraphicsPanel, BaseConsolePanel
-from livemonitor.monitor import BaseMonitor
+from .util import SharedData
+from .color import Color
+from .panel import BaseGraphicsPanel, BaseConsolePanel
+from .monitor import BaseMonitor
 
 
 class CustomPanel1(BaseGraphicsPanel):
@@ -65,28 +65,21 @@ class CustomMonitor(BaseMonitor):
         frame.layout.setColumnStretch(1, 1)
 
 
-def main():
+if __name__ == '__main__':
     panel1 = CustomPanel1()
     panel2 = CustomPanel2()
     monitor = CustomMonitor(panel1, panel2)
-    proc = monitor.run_mp()
+    monitor.run_mp()
 
     iter = 0
     while True:
-        try:
-            panel1.sd_line.push(np.random.rand())
-            panel1.sd_scatter.push((np.random.rand(), np.random.rand()))
+        panel1.sd_line.push(np.random.rand())
+        panel1.sd_scatter.push((np.random.rand(), np.random.rand()))
 
-            panel1.sd_multi1.push(np.random.rand())
-            panel1.sd_multi2.push(np.random.rand())
-            panel1.sd_multi3.push(np.random.rand())
+        panel1.sd_multi1.push(np.random.rand())
+        panel1.sd_multi2.push(np.random.rand())
+        panel1.sd_multi3.push(np.random.rand())
 
-            panel2.sd.push('[{}] log-{}'.format(datetime.now().timestamp(), iter))
-            iter += 1
-            time.sleep(1)
-        except KeyboardInterrupt:
-            proc.kill()
-
-
-if __name__ == '__main__':
-    main()
+        panel2.sd.push('[{}] log-{}'.format(datetime.now().timestamp(), iter))
+        iter += 1
+        time.sleep(1)

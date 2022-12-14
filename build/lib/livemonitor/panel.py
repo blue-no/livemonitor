@@ -35,14 +35,11 @@ class BaseGraphicsPanel:
 
         def main():
             try:
-                success, frame = cap.read()
-                if not success: return
-                frame_ = cv2.rotate(frame, cv2.ROTATE_90_CLOCKWISE)
-                imgitem.setImage(cv2.cvtColor(frame_, cv2.COLOR_BGR2RGB))
-                sd.replace(frame_)
-            except Exception as e:
+                frame = cv2.rotate(cap.read()[1], cv2.ROTATE_90_CLOCKWISE)
+                imgitem.setImage(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
+                sd.replace(0, frame)
+            except:
                 cap.release()
-                raise e
 
         QtLoop.run(main, loop_msec)
 

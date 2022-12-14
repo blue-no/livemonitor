@@ -36,6 +36,4 @@ class BaseMonitor:
         app.exec_()
 
     def run_mp(self):
-        proc = mp.Process(target=self.run)
-        proc.start()
-        return proc
+        mp.Process(target=self.run).start()
