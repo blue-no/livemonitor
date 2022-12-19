@@ -7,4 +7,4 @@ from .panel import BaseConsolePanel, BaseGraphicsPanel
 from .util import SharedData
 
 
-__version__ = '0.4.0'
+__version__ = '0.5.0'
