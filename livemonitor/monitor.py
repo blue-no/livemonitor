@@ -1,4 +1,5 @@
 import multiprocessing as mp
+import sys
 
 import pyqtgraph as pg
 from pyqtgraph.Qt import QtWidgets
@@ -33,7 +34,7 @@ class BaseMonitor:
         self.init_panels(frame)
 
         window.showMaximized()
-        app.exec_()
+        sys.exit(app.exec_())
 
     def run_mp(self):
         proc = mp.Process(target=self.run)
