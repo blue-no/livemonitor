@@ -36,10 +36,11 @@ class BaseGraphicsPanel:
         def main():
             try:
                 success, frame = cap.read()
-                if not success: return
-                frame_ = cv2.rotate(frame, cv2.ROTATE_90_CLOCKWISE)
-                imgitem.setImage(cv2.cvtColor(frame_, cv2.COLOR_BGR2RGB))
-                sd.replace(frame_)
+                if not success:
+                    return
+                imgitem.setImage(cv2.rotate(cv2.cvtColor(
+                    frame, cv2.COLOR_BGR2RGB), cv2.ROTATE_90_CLOCKWISE))
+                sd.replace(frame)
             except Exception as e:
                 cap.release()
                 raise e
@@ -53,9 +54,12 @@ class BaseGraphicsPanel:
         view_box.addItem(imgitem)
 
         def main():
-            img = sd.get()
-            if len(img) > 0:
-                imgitem.setImage(cv2.rotate(img, cv2.ROTATE_90_CLOCKWISE))
+            frame = sd.get()
+            if len(frame) == 0:
+                return
+            if frame.ndim == 3:
+                frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+            imgitem.setImage(cv2.rotate(frame, cv2.ROTATE_90_CLOCKWISE))
 
         QtLoop.run(main, loop_msec)
 
@@ -89,7 +93,7 @@ class BaseGraphicsPanel:
                 color = colors[i%len(colors)]
                 if isinstance(color, str):
                     color = code_to_rgb(color)
-                kwargs['pen'] = color
+                kwargs['pen'] = pg.mkPen(color, width=2)
                 if fill:
                     kwargs['brush'] = (*color, 50)
                     kwargs['fillLevel'] = 0.0
@@ -147,6 +151,55 @@ class BaseGraphicsPanel:
                 p.setData([t[0] for t in values], [t[1] for t in values])
 
         QtLoop.run(main, loop_msec)
+
+    def setup_histograpm(
+            self, plot_item: 'pg.PlotItem', *sds: 'SharedData',
+            title: Optional[str] = None,
+            xlabel: Optional[str] = None, xunit: Optional[str] = None,
+            ylabel: Optional[str] = None, yunit: Optional[str] = None,
+            xrange: Optional[tuple] = None, yrange: Optional[tuple] = None,
+            legends: List[str] = [],
+            colors: Optional[Union[List[tuple], str]] = None,
+            fill: bool = True, bins: Union[str, int] = 'auto',
+            loop_msec: int = 100) -> None:
+        plot_item.setTitle(title=title)
+        plot_item.setLabel(axis='bottom', text=xlabel, units=xunit)
+        plot_item.setLabel(axis='left', text=ylabel, units=yunit)
+        if xrange is not None:
+            plot_item.setXRange(*xrange, padding=0)
+        if yrange is not None:
+            plot_item.setYRange(*yrange, padding=0)
+
+
+        show_legend = len(legends) > 0
+        ps: List[pg.PlotDataItem] = []
+
+        if show_legend:
+            leg = pg.LegendItem(offset=(35, 15), verSpacing=-10)
+            leg.setParentItem(plot_item)
+
+        for i in range(len(sds)):
+            kwargs = dict(stepMode="center")
+            if colors is not None:
+                color = colors[i%len(colors)]
+                if isinstance(color, str):
+                    color = code_to_rgb(color)
+                kwargs['pen'] = pg.mkPen(color, width=2)
+                if fill:
+                    kwargs['brush'] = (*color, 50)
+                    kwargs['fillLevel'] = 0.0
+            _p = plot_item.plot([], [], **kwargs)
+            ps.append(_p)
+            if show_legend:
+                leg.addItem(_p, legends[i])
+
+        def main():
+            for p, sd in zip(ps, sds):
+                y, x = np.histogram(sd.get(), bins=bins)
+                p.setData(x, y)
+
+        QtLoop.run(main, loop_msec)
+
 
 
 class BaseConsolePanel:
