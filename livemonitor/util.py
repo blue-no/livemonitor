@@ -14,6 +14,11 @@ class QtLoop:
         timer.start(msec)
         cls.__timers.append(timer)
 
+    @classmethod
+    def stop_all(cls) -> None:
+        for timer in cls.__timers:
+            timer.stop()
+
 
 class SharedData:
 
@@ -22,19 +27,31 @@ class SharedData:
         self.__values = mp.Manager().list([[]])
 
     def get(self) -> Any:
-        return self.__values[0]
+        try:
+            return self.__values[0]
+        except Exception:
+            exit()
 
     def push(self, *values: Any) -> None:
-        new = self.__values[0] + list(values)
-        if self.maxlen is not None:
-            new = new[-self.maxlen:]
-        self.__values[0] = new
+        try:
+            new = self.__values[0] + list(values)
+            if self.maxlen is not None:
+                new = new[-self.maxlen:]
+            self.__values[0] = new
+        except Exception:
+            exit()
 
     def replace(self, values: Any) -> None:
-        new = values
-        if self.maxlen is not None:
-            new = new[-self.maxlen:]
-        self.__values[0] = new
+        try:
+            new = values
+            if self.maxlen is not None:
+                new = new[-self.maxlen:]
+            self.__values[0] = new
+        except Exception:
+            exit()
 
     def clear(self) -> None:
-        self.__values[0] = []
+        try:
+            self.__values[0] = []
+        except Exception:
+            exit()
