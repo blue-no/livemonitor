@@ -1,3 +1,4 @@
+import atexit
 import multiprocessing as mp
 import sys
 
@@ -39,4 +40,8 @@ class BaseMonitor:
     def run_mp(self):
         proc = mp.Process(target=self.run)
         proc.start()
-        return proc
+
+        def _terminate():
+            proc.terminate()
+            proc.join()
+        atexit.register(_terminate)
